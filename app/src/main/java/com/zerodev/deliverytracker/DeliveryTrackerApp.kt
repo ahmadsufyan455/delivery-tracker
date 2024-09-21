@@ -13,6 +13,7 @@ import com.zerodev.deliverytracker.core.services.LocationService.Companion.CHANN
 import com.zerodev.deliverytracker.core.services.LogWorker
 import com.zerodev.deliverytracker.core.services.LogWorker.Companion.CHANNEL_ID_WORKER
 import com.zerodev.deliverytracker.core.services.LogWorker.Companion.CHANNEL_NAME_WORKER
+import com.zerodev.deliverytracker.core.utils.DataStoreManager
 import com.zerodev.deliverytracker.core.utils.calculateInitialDelay
 import com.zerodev.deliverytracker.di.databaseModule
 import com.zerodev.deliverytracker.di.repositoryModule
@@ -28,6 +29,7 @@ class DeliveryTrackerApp : Application() {
     private lateinit var workManager: WorkManager
     override fun onCreate() {
         super.onCreate()
+        DataStoreManager.initialize(this)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelService = NotificationChannel(
                 CHANNEL_ID_SERVICE,

@@ -16,20 +16,34 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.zerodev.deliverytracker.core.services.LocationService
+import com.zerodev.deliverytracker.core.utils.DataStoreManager
 import com.zerodev.deliverytracker.presentation.viewmodel.LogLocationViewModel
 import com.zerodev.deliverytracker.ui.theme.DeliveryTrackerTheme
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
     private val logLocationViewModel: LogLocationViewModel by viewModel()
+    private val dataStore: DataStore<Preferences> = DataStoreManager.getDataStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,29 +59,34 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             DeliveryTrackerTheme {
-                val logLocations =
-                    logLocationViewModel.getAllLogLocations().asFlow().collectAsLazyPagingItems()
+                val logLocations = logLocationViewModel.getAllLogLocations().asFlow().collectAsLazyPagingItems()
+                var isServiceRunning by remember { mutableStateOf(false) }
+
+                LaunchedEffect(Unit) {
+                    isServiceRunning = isServiceRunning()
+                }
 
                 Column(modifier = Modifier.padding(16.dp)) {
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
                         Button(onClick = {
-                            Intent(applicationContext, LocationService::class.java).apply {
-                                action = LocationService.ACTION_START
-                                startService(this)
+                            lifecycleScope.launch {
+                                val serviceAction = if (isServiceRunning) {
+                                    LocationService.ACTION_STOP
+                                } else {
+                                    LocationService.ACTION_START
+                                }
+
+                                Intent(applicationContext, LocationService::class.java).apply {
+                                    action = serviceAction
+                                    startService(this)
+                                }
+                                setServiceState(!isServiceRunning)
+                                isServiceRunning = !isServiceRunning
                             }
                         }) {
-                            Text(text = "Start")
-                        }
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Button(onClick = {
-                            Intent(applicationContext, LocationService::class.java).apply {
-                                action = LocationService.ACTION_STOP
-                                startService(this)
-                            }
-                        }) {
-                            Text(text = "Stop")
+                            Text(if (isServiceRunning) "Stop Service" else "Start Service")
                         }
                         Spacer(modifier = Modifier.height(16.dp))
                         Text("Log Locations:")
@@ -99,6 +118,17 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private suspend fun isServiceRunning(): Boolean {
+        val preferences = dataStore.data.first()
+        return preferences[booleanPreferencesKey("isServiceRunning")] ?: false
+    }
+
+    private suspend fun setServiceState(isRunning: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[booleanPreferencesKey("isServiceRunning")] = isRunning
         }
     }
 }
