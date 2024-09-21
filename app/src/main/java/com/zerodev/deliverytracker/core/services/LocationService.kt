@@ -51,7 +51,7 @@ class LocationService : Service() {
         val logLocation = LogLocation(
             latitude = latitude,
             longitude = longitude,
-            timestamp = 1,
+            timestamp = System.currentTimeMillis(),
             isOnline = isOnline(applicationContext)
         )
         serviceScope.launch {
@@ -69,7 +69,7 @@ class LocationService : Service() {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         locationClient
-            .getLocationUpdates(10000L)
+            .getLocationUpdates(3000L) // interval every 5 minutes
             .catch { e -> e.printStackTrace() }
             .onEach { location ->
                 val lat = location.latitude.toString()

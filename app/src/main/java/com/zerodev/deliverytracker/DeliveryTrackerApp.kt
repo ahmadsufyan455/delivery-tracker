@@ -30,13 +30,14 @@ class DeliveryTrackerApp : Application() {
     override fun onCreate() {
         super.onCreate()
         DataStoreManager.initialize(this)
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelService = NotificationChannel(
                 CHANNEL_ID_SERVICE,
                 CHANNEL_NAME_SERVICE,
                 NotificationManager.IMPORTANCE_LOW
             )
-            val notificationManagerService = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManagerService =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManagerService.createNotificationChannel(channelService)
 
             val channelWorker = NotificationChannel(
@@ -44,7 +45,8 @@ class DeliveryTrackerApp : Application() {
                 CHANNEL_NAME_WORKER,
                 NotificationManager.IMPORTANCE_HIGH
             )
-            val notificationManagerWorker = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManagerWorker =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManagerWorker.createNotificationChannel(channelWorker)
         }
 
@@ -67,7 +69,7 @@ class DeliveryTrackerApp : Application() {
 
     private fun removeDataPeriodic() {
         val removeData = PeriodicWorkRequestBuilder<LogWorker>(15, TimeUnit.MINUTES)
-            .setInitialDelay(calculateInitialDelay(22, 0), TimeUnit.HOURS)
+            .setInitialDelay(calculateInitialDelay(22, 0), TimeUnit.HOURS) // schedule every 10 PM
             .build()
         workManager.enqueueUniquePeriodicWork(
             "DataCleanUp",
