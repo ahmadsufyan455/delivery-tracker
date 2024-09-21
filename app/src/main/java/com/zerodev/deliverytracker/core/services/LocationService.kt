@@ -5,10 +5,12 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.LocationServices
 import com.zerodev.deliverytracker.R
+import com.zerodev.deliverytracker.core.utils.isOnline
+import com.zerodev.deliverytracker.data.model.LogLocation
+import com.zerodev.deliverytracker.domain.usecases.InsertLocationUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -23,6 +25,7 @@ class LocationService : Service() {
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var locationClient: LocationClient
+    private val insetLogLocationUseCase: InsertLocationUseCase by inject()
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -44,6 +47,18 @@ class LocationService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
+    private fun insertLogLocation(latitude: Double, longitude: Double) {
+        val logLocation = LogLocation(
+            latitude = latitude,
+            longitude = longitude,
+            timestamp = 1,
+            isOnline = isOnline(applicationContext)
+        )
+        serviceScope.launch {
+            insetLogLocationUseCase.invoke(logLocation)
+        }
+    }
+
     private fun start() {
         val notification = NotificationCompat.Builder(this, CHANNEL_ID_SERVICE)
             .setContentTitle("Tracking location...")
@@ -59,7 +74,7 @@ class LocationService : Service() {
             .onEach { location ->
                 val lat = location.latitude.toString()
                 val long = location.longitude.toString()
-                Log.d(TAG, "lat: $lat, long: $long: ")
+                insertLogLocation(lat.toDouble(), long.toDouble())
                 val updatedNotification = notification.setContentText(
                     "Location: ($lat, $long)"
                 )
@@ -85,6 +100,5 @@ class LocationService : Service() {
         const val CHANNEL_NAME_SERVICE = "location channel"
         const val ACTION_START = "ACTION_START"
         const val ACTION_STOP = "ACTION_STOP"
-        internal const val TAG = "LocationService"
     }
 }
