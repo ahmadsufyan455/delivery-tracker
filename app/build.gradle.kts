@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.zerodev.deliverytracker"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.zerodev.deliverytracker"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
