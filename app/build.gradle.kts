@@ -49,6 +49,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+        }
+    }
 }
 
 dependencies {
@@ -73,9 +78,16 @@ dependencies {
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.paging.runtime.ktx)
     implementation (libs.androidx.paging.compose)
-    ksp(libs.androidx.room.compiler.v2xx)
     implementation(libs.androidx.work.runtime)
     implementation (libs.androidx.datastore.preferences)
+
+    // test lib
+    testImplementation (libs.mockk)
+    testImplementation (libs.turbine)
+    testImplementation (libs.androidx.paging.common)
+    testImplementation (libs.androidx.paging.common.ktx)
+    testImplementation (libs.androidx.core.testing)
+    testImplementation (libs.kotlinx.coroutines.test)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
