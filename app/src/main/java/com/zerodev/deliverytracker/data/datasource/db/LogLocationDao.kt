@@ -12,7 +12,7 @@ interface LogLocationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLogLocation(logLocation: LogLocation)
 
-    @Query("SELECT * FROM LogLocation ORDER BY id ASC")
+    @Query("SELECT * FROM LogLocation ORDER BY id DESC")
     fun getAllLogLocations(): PagingSource<Int, LogLocation>
 
     @Query("DELETE FROM LogLocation")

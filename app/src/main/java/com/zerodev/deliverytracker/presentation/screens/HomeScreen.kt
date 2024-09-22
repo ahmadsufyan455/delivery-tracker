@@ -54,24 +54,6 @@ fun HomeScreen(
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp)
     ) {
-        Button(onClick = {
-            coroutineScope.launch {
-                val serviceAction = if (isServiceRunning) {
-                    LocationService.ACTION_STOP
-                } else {
-                    LocationService.ACTION_START
-                }
-                Intent(applicationContext, LocationService::class.java).apply {
-                    action = serviceAction
-                    applicationContext.startService(this)
-                }
-                setServiceState(!isServiceRunning)
-                isServiceRunning = !isServiceRunning
-            }
-        }) {
-            Text(if (isServiceRunning) "Stop Service" else "Start Service")
-        }
-        Spacer(modifier = Modifier.height(16.dp))
         Text("Log Locations: ${if (isServiceRunning) "Running" else "Stopped"}")
         Spacer(modifier = Modifier.height(8.dp))
         LazyColumn(modifier = Modifier.weight(1f)) {
@@ -99,6 +81,24 @@ fun HomeScreen(
                     item { Text("Error: ${e.error.localizedMessage}") }
                 }
             }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = {
+            coroutineScope.launch {
+                val serviceAction = if (isServiceRunning) {
+                    LocationService.ACTION_STOP
+                } else {
+                    LocationService.ACTION_START
+                }
+                Intent(applicationContext, LocationService::class.java).apply {
+                    action = serviceAction
+                    applicationContext.startService(this)
+                }
+                setServiceState(!isServiceRunning)
+                isServiceRunning = !isServiceRunning
+            }
+        }) {
+            Text(if (isServiceRunning) "Stop Service" else "Start Service")
         }
     }
 }
