@@ -23,3 +23,25 @@ This app also continues to track location even though the user is offline.</p>
 
 This project also contains viewmodel unit test with scenario:
 * Ensure the emits log location data is correct ✅
+
+## Installation
+Clone or download this repository into your computer and open with latest Android Studio.
+```
+https://github.com/ahmadsufyan455/delivery-tracker.git
+```
+
+## Screenshot
+
+<table>
+    <tr>
+        <td><img src="https://github.com/ahmadsufyan455/delivery-tracker/blob/main/screenshot/location-permission.jpg" alt="delivery tracking" border="0" /></td>
+        <td><img src="https://github.com/ahmadsufyan455/delivery-tracker/blob/main/screenshot/notif-permission.jpg" alt="delivery tracking" border="0" /></td>
+        <td><img src="https://github.com/ahmadsufyan455/delivery-tracker/blob/main/screenshot/log-data.jpg" alt="delivery tracking" border="0" /></td>
+    </tr>
+    <tr>
+        <td><img src="https://github.com/ahmadsufyan455/delivery-tracker/blob/main/screenshot/marker-data.jpg" alt="delivery tracking" border="0" /></td>
+        <td><img src="https://github.com/ahmadsufyan455/delivery-tracker/blob/main/screenshot/remove-notif.png" alt="delivery tracking" border="0" /></td>
+    </tr>
+</table>
+
+
