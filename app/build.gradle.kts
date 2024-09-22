@@ -80,6 +80,9 @@ dependencies {
     implementation (libs.androidx.paging.compose)
     implementation(libs.androidx.work.runtime)
     implementation (libs.androidx.datastore.preferences)
+    implementation(libs.play.services.maps)
+    implementation(libs.maps.compose)
+    implementation (libs.androidx.navigation.compose)
 
     // test lib
     testImplementation (libs.mockk)

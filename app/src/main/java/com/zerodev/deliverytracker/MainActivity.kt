@@ -13,8 +13,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.zerodev.deliverytracker.presentation.screens.HomeScreen
+import com.zerodev.deliverytracker.presentation.screens.MapsScreen
+import com.zerodev.deliverytracker.presentation.viewmodel.LogLocationViewModel
 import com.zerodev.deliverytracker.ui.theme.DeliveryTrackerTheme
+import org.koin.androidx.compose.getViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +39,23 @@ class MainActivity : ComponentActivity() {
             DeliveryTrackerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Surface(
-                        modifier = Modifier.fillMaxSize().padding(innerPadding),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        HomeScreen()
+                        val navController = rememberNavController()
+                        val logLocationViewModel: LogLocationViewModel = getViewModel()
+
+                        NavHost(navController, startDestination = "home") {
+                            composable("home") {
+                                HomeScreen(
+                                    navController = navController,
+                                    logLocationViewModel = logLocationViewModel
+                                )
+                            }
+                            composable("maps") { MapsScreen(logLocationViewModel = logLocationViewModel) }
+                        }
                     }
                 }
             }

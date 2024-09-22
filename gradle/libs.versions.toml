@@ -11,12 +11,15 @@ kotlinxCoroutinesTest = "1.6.4"
 lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
 composeBom = "2024.04.01"
+mapsCompose = "2.7.2"
 mockk = "1.12.0"
+navigationCompose = "2.8.1"
 pagingCompose = "3.3.2"
 pagingRuntimeKtx = "3.3.2"
 playServicesLocation = "21.3.0"
 lifecycleLivedataKtx = "2.6.2"
 lifecycleViewmodelKtx = "2.6.2"
+playServicesMaps = "19.0.0"
 roomCompiler = "2.5.2"
 roomKtx = "2.6.1"
 roomRuntime = "2.5.2"
@@ -29,6 +32,7 @@ datastorePreferences = "1.1.1"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "pagingCompose" }
 androidx-paging-common-ktx = { module = "androidx.paging:paging-common-ktx", version.ref = "pagingCompose" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
@@ -55,11 +59,13 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndr
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsCompose" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
