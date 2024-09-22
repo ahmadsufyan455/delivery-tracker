@@ -39,6 +39,7 @@ https://github.com/ahmadsufyan455/delivery-tracker.git
         <td><img src="https://github.com/ahmadsufyan455/delivery-tracker/blob/main/screenshot/log-data.jpg" alt="delivery tracking" border="0" /></td>
     </tr>
     <tr>
+        <td><img src="https://github.com/ahmadsufyan455/delivery-tracker/blob/main/screenshot/log-notif.jpg" alt="delivery tracking" border="0" /></td>
         <td><img src="https://github.com/ahmadsufyan455/delivery-tracker/blob/main/screenshot/marker-data.jpg" alt="delivery tracking" border="0" /></td>
         <td><img src="https://github.com/ahmadsufyan455/delivery-tracker/blob/main/screenshot/remove-notif.png" alt="delivery tracking" border="0" /></td>
     </tr>
