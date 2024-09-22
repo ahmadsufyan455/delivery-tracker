@@ -69,7 +69,7 @@ class DeliveryTrackerApp : Application() {
 
     private fun removeDataPeriodic() {
         val removeData = PeriodicWorkRequestBuilder<LogWorker>(24, TimeUnit.HOURS)
-            .setInitialDelay(calculateInitialDelay(22, 0), TimeUnit.HOURS) // schedule every 10 PM
+            .setInitialDelay(calculateInitialDelay(), TimeUnit.MILLISECONDS)
             .build()
         workManager.enqueueUniquePeriodicWork(
             "DataCleanUp",

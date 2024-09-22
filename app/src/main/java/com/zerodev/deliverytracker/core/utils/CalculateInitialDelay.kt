@@ -1,17 +1,25 @@
 package com.zerodev.deliverytracker.core.utils
 
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
-fun calculateInitialDelay(hour: Int, minute: Int): Long {
-    val currentDateTime = Calendar.getInstance()
-    val targetDateTime = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, hour)
-        set(Calendar.MINUTE, minute)
-        set(Calendar.SECOND, 0)
+fun calculateInitialDelay(): Long {
+    val now = System.currentTimeMillis()
+    var targetTime = calculateTargetTime()
+    return if (targetTime > now) {
+        targetTime - now
+    } else {
+        val tomorrow = now + TimeUnit.DAYS.toMillis(1)
+        targetTime = calculateTargetTime(tomorrow)
+        targetTime - now
     }
-    if (targetDateTime.before(currentDateTime)) {
-        targetDateTime.add(Calendar.DAY_OF_YEAR, 1)
-    }
-    val initialDelay = targetDateTime.timeInMillis - currentDateTime.timeInMillis
-    return initialDelay
+}
+
+fun calculateTargetTime(timeInMillis: Long = System.currentTimeMillis()): Long {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = timeInMillis
+    calendar.set(Calendar.HOUR_OF_DAY, 22) // Set hour to 10 PM
+    calendar.set(Calendar.MINUTE, 0)
+    calendar.set(Calendar.SECOND, 0)
+    return calendar.timeInMillis
 }
