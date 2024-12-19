@@ -11,6 +11,7 @@ This app also continues to track location even though the user is offline.</p>
 * Location maps marker
 * Notification for tracking location and remove data
 * Online and Offline tracking
+* Modularization
 
 ## Library
 * Paging
