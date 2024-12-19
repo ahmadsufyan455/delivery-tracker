@@ -11,6 +11,7 @@ This app also continues to track location even though the user is offline.</p>
 * Location maps marker
 * Notification for tracking location and remove data
 * Online and Offline tracking
+* Modularization
 
 ## Library
 * Paging
@@ -20,6 +21,7 @@ This app also continues to track location even though the user is offline.</p>
 * Koin
 * Data Store
 * Compose Navigation
+* Coroutines
 
 This project also contains viewmodel unit test with scenario:
 * Ensure the emits log location data is correct ✅
